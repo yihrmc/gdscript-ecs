@@ -1,37 +1,6 @@
-# GDScript ECS framework
+class_name EcsExample extends RefCounted
 
 
-## Framework features
-
-1. All ECS components support syntax prompts. Each component is a GDScript custom class.
-
-2. The entity query is very fast. The entity ID is an array index.
-
-3. Adding and deleting entities is still very fast. This is because the framework uses cache pooling to achieve reuse of entities.
-
-4. Supports serialization, importing and exporting data without any configuration. And the data is very compact.
-
-5. It is very concise and logically clear to use.
-
-
-## What is ECS architecture
-
-The full name of ECS is Entity Component System. It is a software architecture primarily used for game development.
-
-
-## Framework concept
-
-The framework consists of three main elements, namely 'Entity', 'Component', and 'System'.
-In addition, there are two elements, 'Event' and 'Command', which assist the 'System' element in completing the code logic.
-
-- `Entity`: It is a container for components, where an entity contains multiple components and the entity itself is not responsible for storing data.
-- `Component`: Responsible for storing data. Its behavior is the same as that of a Dictionary.
-- `System`: Logical processing.
-- `Event`: One person can throw an event, and multiple people (or no one) can listen to the event. After throwing the event, there is no result. In fact, it is the signal in Godot.
-- `Command`: One person calls the command, one person executes the command. The command allows for the return of results. In fact, it is a function.
-
-## Example
-```gdscript
 static func test():
 	# Add component script
 	var component_scanner = EcsComponentScanner.new()
@@ -130,6 +99,7 @@ class System_Test1 extends EcsSystemBase:
 class System_Test2 extends EcsSystemBase:
 
 	func _on_ready() -> void:
+		print("[connect] ########################")
 		get_event("on_entity_created").connect(__on_entity_created)
 		pass
 
@@ -142,4 +112,3 @@ class System_Test2 extends EcsSystemBase:
 		get_command("test_world_print").call(text)
 		return downlink_data
 	pass
-```

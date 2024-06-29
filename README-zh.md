@@ -1,108 +1,108 @@
-# GDScript ECS framework
+# GDScript ECS 框架
 
 
-## Framework features
+## 框架特点
 
-1. All ECS components support syntax prompts. Each component is a GDScript custom class.
+1. 所有的ECS组件，都支持语法提示。每个组件都是GDScript自定义类。
 
-2. The entity query is very fast. The entity ID is an array index.
+2. 查询实体非常快。实体ID是数组索引。
 
-3. Adding and deleting entities is still very fast. This is because the framework uses cache pooling to achieve reuse of entities.
+3. 添加和删除实体依然也非常快。这是因为框架使用了缓存池，实现对实体的重复使用。
 
-4. Supports serialization, importing and exporting data without any configuration. And the data is very compact.
+4. 支持序列化，导入数据和导出数据，而不需要任何配置。并且数据非常紧凑。
 
-5. It is very concise and logically clear to use.
-
-
-## What is ECS architecture
-
-The full name of ECS is Entity Component System. It is a software architecture primarily used for game development.
+5. 使用起来非常的简洁，逻辑清晰。
 
 
-## Framework concept
+## 什么是ECS架构
 
-The framework consists of three main elements, namely 'Entity', 'Component', and 'System'.
-In addition, there are two elements, 'Event' and 'Command', which assist the 'System' element in completing the code logic.
+ECS全称Entity-Component-System,即实体-组件-系统。是一种软件架构，主要用于游戏开发。
 
-- `Entity`: It is a container for components, where an entity contains multiple components and the entity itself is not responsible for storing data.
-- `Component`: Responsible for storing data. Its behavior is the same as that of a Dictionary.
-- `System`: Logical processing.
-- `Event`: One person can throw an event, and multiple people (or no one) can listen to the event. After throwing the event, there is no result. In fact, it is the signal in Godot.
-- `Command`: One person calls the command, one person executes the command. The command allows for the return of results. In fact, it is a function.
 
-## Example
+## 了解框架
+
+框架有三个主要元素组成，分别是`Entity`、`Component`和`System`。另外还有`Event`和`Command`两个元素，辅助`System`元素完成代码逻辑。
+
+- `Entity` 实体：是组件的容器，一个实体包含多个组件，实体本身不负责存储数据。
+- `Component` 组件：负责存储数据。其行为与Dictionary作用相同。
+- `System` 系统：逻辑处理。
+- `Event` 事件：一个人抛出事件，可以多个人(也可以没人)监听事件。抛出事件后，没有结果。其实现，就是Godot的信号。
+- `Command` 命令：一个人调用命令，一个人执行命令。命令允许返回结果。其实现，就是一个函数。
+
+## 例子
 ```gdscript
 static func test():
-	# Add component script
+	# 添加组件脚本
 	var component_scanner = EcsComponentScanner.new()
 	component_scanner.add_script(Component_Namer)
 	component_scanner.add_script(Component_Test2)
 	# component_scanner.add_script(load("Component_xxxx.gd"))
 	# component_scanner.scan_script("res://gdscript_ecs_test/component/", "*.gd")
 
-	# Add system script
+	# 添加系统脚本
 	var system_scanner = EcsSystemScanner.new()
 	system_scanner.add_script(System_Test1)
 	system_scanner.add_script(System_Test2)
 	# system_scanner.add_script(load("System_xxxx1.gd"))
 	# system_scanner.scan_script("res://gdscript_ecs_test/system/", "*.gd")
 
-	# Initialize the world
+	# 初始化世界
 	var world := EcsWorld.new(component_scanner, system_scanner)
-	world.init_system() # optional
+	world.init_system() # 可选的
 
 	world.add_command("test_world_print", func(arg):
 		print("[world1_print]", arg)
 		pass)
 
-	# Entities created in any location
+	# 你可以任何地方创建实体，例如在这里创建实体
 	var entity = world.create_entity()
 	var entity_namer = entity.create_component(Component_Namer.NAME) as Component_Namer
 	entity_namer.display_name = "Entities created in any location"
 
-	# Processing data
+	# 让所有系统处理数据
 	for i in 15:
 		world.update({
 			count = i + 1
 		})
 
-	# Export world data for saving data.
+	# 导出数据到存档
 	var world_data = world.export_dict()
 	var world_data_json_str = JSON.stringify(world_data, "\t")
-	print("[world_data] ", world_data_json_str)
+	print("[世界1的存档数据] ", world_data_json_str)
 
-	# Import data.
+	# 从存档导入数据到一个新的世界
 	var world2 := EcsWorld.new(component_scanner, system_scanner)
 	var world_data_json = JSON.parse_string(world_data_json_str)
 	world2.import_dict(world_data_json)
-	print("[world_data2] ", JSON.stringify(world_data_json, "\t"))
+	print("[世界2的存档数据] ", JSON.stringify(world_data_json, "\t"))
 
-	# In the world of importing data,
-	# be sure to have the same commands and events
+	# 导入数据到世界中，必须确保世界具有相同的命令和事件
 	#
-	# Do you think synchronizing like this is troublesome?
-	# You can use the 'EcsRegisterScanner' class to implement the function of only creating commands and events.
+	# 你认为这样同步很麻烦吗？
+	# 您可以使用`EcsRegisterScanner`类，来实现仅创建命令和事件的功能。
 	#
 	world2.add_command("test_world_print", func(arg):
 		print("[world2_print]", arg)
 		pass)
 
-	# The world has been fully restored and you can call it as you please.
+	# 世界已经完全恢复，你可以随心所欲地调用它。
 	world2.update({
 		count = 1
 	})
 	pass
 
-## Provide named data for entities
+## 为实体提供命名数据
 class Component_Namer extends EcsComponentBase:
 	const NAME = &"Namer"
 	## Display Name
 	var display_name: String = ""
 
+## 第二个测试组件
 class Component_Test2 extends EcsComponentBase:
 	const NAME = &"Test2"
 	var count: int = -1
 
+## 一个测试系统
 class System_Test1 extends EcsSystemBase:
 	signal on_entity_created()
 
@@ -127,18 +127,20 @@ class System_Test1 extends EcsSystemBase:
 		return downlink_data
 	pass
 
+## 第二个测试系统
 class System_Test2 extends EcsSystemBase:
 
 	func _on_ready() -> void:
+		# 连接来自其它地方注册的信号
 		get_event("on_entity_created").connect(__on_entity_created)
 		pass
 
 	func __on_entity_created():
-		print("[System_Test2] __on_entity_created")
+		print("[系统2] 收到信号，系统1创建了实体")
 		pass
 
 	func _on_update(downlink_data: Dictionary) -> Dictionary:
-		var text = "[System_Test2] downlink_data.count: " + str(downlink_data.count)
+		var text = "[系统2] downlink_data.count: " + str(downlink_data.count)
 		get_command("test_world_print").call(text)
 		return downlink_data
 	pass
