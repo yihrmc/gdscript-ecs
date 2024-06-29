@@ -1,5 +1,6 @@
 # GDScript ECS framework
 
+![GDScript ECS](https://github.com/yihrmc/gdscript-ecs/assets/40130751/5e70fac2-88f5-4789-92bf-7a06fb8d29c5)
 
 ## Framework features
 
