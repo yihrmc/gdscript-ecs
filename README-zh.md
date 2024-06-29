@@ -1,5 +1,7 @@
 # GDScript ECS 框架
 
+![中文 GDScript ECS 架构图](https://github.com/yihrmc/gdscript-ecs/assets/40130751/11c54f1a-dfd0-4d16-aeae-86b28bf4d27b)
+
 
 ## 框架特点
 
