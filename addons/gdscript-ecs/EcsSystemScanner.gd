@@ -1,16 +1,19 @@
 class_name EcsSystemScanner extends _EcsGDScriptScanner
 
+var _system_base_script: Script
+
 ## Array[ ArrayIndex, system_script:GDScript ]
 var _system_script_list: Array[GDScript] = []
 
 func _init(system_base_script: Script = null) -> void:
-	super(system_base_script if system_base_script != null else EcsSystemBase)
+	_system_base_script = EcsSystemBase if system_base_script == null else system_base_script
 	pass
 
-func add_script(script: GDScript) -> void:
-	if not _is_script(script):
-		return
+func add_script(script: GDScript) -> bool:
+	if not _is_parent_script(script, _system_base_script):
+		return false
 	_system_script_list.append(script)
+	return true
 
 ## Instantiate all systems
 func load_system_list() -> Array[EcsSystemBase]:

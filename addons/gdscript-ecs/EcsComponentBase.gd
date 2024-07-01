@@ -10,10 +10,23 @@ const COMPONENT_NAME_CONSTANT_NAME: StringName = "NAME"
 var _entity_id: int = -1
 
 ## [override]
+func is_hide_all_properties() -> bool:
+	return false
+
+## [override]
+func get_property_name_list_of_hidden() -> PackedStringArray:
+	return []
+
+## [override]
 func get_property_name_list() -> PackedStringArray:
+	if is_hide_all_properties():
+		return []
+	var property_name_list_of_hidden := get_property_name_list_of_hidden()
 	var property_name_list: PackedStringArray = []
 	var property_list = get_property_list()
 	for property in property_list:
+		if property_name_list_of_hidden.has(property.name):
+			continue
 		if (property.usage & PROPERTY_USAGE_SCRIPT_VARIABLE) != 0:
 			property_name_list.append(property.name)
 	return property_name_list

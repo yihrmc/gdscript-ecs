@@ -1,6 +1,6 @@
 # GDScript ECS 框架
 
-![中文 GDScript ECS 架构图](https://github.com/yihrmc/gdscript-ecs/assets/40130751/11c54f1a-dfd0-4d16-aeae-86b28bf4d27b)
+![中文 GDScript ECS 架构图](https://raw.githubusercontent.com/yihrmc/gdscript-ecs-assets/main/ecs1.jpg)
 
 
 ## 框架特点
@@ -147,3 +147,11 @@ class System_Test2 extends EcsSystemBase:
 		return downlink_data
 	pass
 ```
+
+## gdscript_ecs_test
+
+![demo.png](https://raw.githubusercontent.com/yihrmc/gdscript-ecs-assets/main/demo.png)
+
+
+
+附带一个ECS与Godot的节点关联的例子。这个例子中，逻辑都在ecs系统中，具体请看例子源代码目录: gdscript_ecs_test。

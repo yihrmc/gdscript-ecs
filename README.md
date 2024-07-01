@@ -1,6 +1,6 @@
 # GDScript ECS framework
 
-![GDScript ECS](https://github.com/yihrmc/gdscript-ecs/assets/40130751/5e70fac2-88f5-4789-92bf-7a06fb8d29c5)
+![GDScript ECS](https://raw.githubusercontent.com/yihrmc/gdscript-ecs-assets/main/ecs2.jpg)
 
 ## Framework features
 
@@ -144,3 +144,12 @@ class System_Test2 extends EcsSystemBase:
 		return downlink_data
 	pass
 ```
+
+## gdscript_ecs_test
+
+![demo.png](https://raw.githubusercontent.com/yihrmc/gdscript-ecs-assets/main/demo.png)
+
+Attached is an example of the node association between ECS and Godot. In this example, the logic is all in the ECS system, please refer to the example source code directory: gdscript_ecs_test.
+
+
+

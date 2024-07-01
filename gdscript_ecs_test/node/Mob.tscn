@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://bnos07563muio"]
+
+[ext_resource type="Shader" path="res://gdscript_ecs_test/node/Mob.gdshader" id="1_0ojmp"]
+[ext_resource type="Script" path="res://gdscript_ecs_test/node/Mob.gd" id="1_67gcy"]
+[ext_resource type="Texture2D" uid="uid://bnq8wbfviveyr" path="res://gdscript_ecs_test/icon.svg" id="1_ylkhh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_63vox"]
+shader = ExtResource("1_0ojmp")
+shader_parameter/pixelSize = 5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qsg6n"]
+size = Vector2(128, 128)
+
+[node name="Mob" type="RigidBody2D"]
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_67gcy")
+
+[node name="Icon" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_63vox")
+texture = ExtResource("1_ylkhh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_qsg6n")

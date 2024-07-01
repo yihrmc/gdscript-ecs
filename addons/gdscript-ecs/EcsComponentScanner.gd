@@ -1,22 +1,23 @@
 class_name EcsComponentScanner extends _EcsGDScriptScanner
 
+var _component_base_script: Script
 var _component_name_constant: StringName
 var _component_script_dict: Dictionary = {}
 
 func _init(component_base_script: Script = null, component_name_constant: StringName = EcsComponentBase.COMPONENT_NAME_CONSTANT_NAME) -> void:
-	super(component_base_script if component_base_script != null else EcsComponentBase)
+	_component_base_script = EcsComponentBase if component_base_script == null else component_base_script
 	_component_name_constant = component_name_constant
 
-func add_script(component_script: GDScript) -> void:
-	if not _is_script(component_script):
-		return
+func add_script(component_script: GDScript) -> bool:
+	if not _is_parent_script(component_script, _component_base_script):
+		return false
 	if not component_script.get_script_constant_map().has(_component_name_constant):
-		return
+		return false
 	var component_name = get_component_name(component_script)
 	if has_component_script(component_name):
-		return
+		return false
 	_component_script_dict[component_name] = component_script
-	pass
+	return true
 
 func has_component_script(component_name: StringName) -> bool:
 	return _component_script_dict.has(component_name)

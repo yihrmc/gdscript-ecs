@@ -82,15 +82,12 @@ func _init_registrar_list() -> void:
 	# _on_set_world
 	for registrar in registrar_list:
 		registrar._on_set_world(self)
-		pass
 	# _on_before_ready
 	for registrar in registrar_list:
 		registrar._on_before_ready()
-		pass
 	# _on_ready
 	for registrar in registrar_list:
 		registrar._on_ready()
-		pass
 	pass
 
 ## Trigger system initialization
@@ -102,11 +99,8 @@ func init_system() -> void:
 		return
 	_system_not_initialized = false
 	# registrar_list
-	var registrar_list: Array[EcsRegistrarBase]
-	if _registrar_scanner != null:
-		registrar_list = _registrar_scanner.get_registrar_list()
-	else:
-		registrar_list = []
+	var registrar_list: Array = [] if _registrar_scanner == null \
+			else _registrar_scanner.get_registrar_list()
 	_registrar_scanner = null
 	# Step 1.
 	for system in _system_list:
@@ -131,8 +125,8 @@ func update(data = null) -> Dictionary:
 		data.clear()
 	assert(data is Dictionary, "The 'data' parameter must be of type Dictionary")
 	# on_pre_update
-	for i in _system_list.size():
-		data = _system_list[-i]._on_pre_update(data)
+	for system in _system_list:
+		data = system._on_pre_update(data)
 	# on_update
 	for system in _system_list:
 		data = system._on_update(data)
@@ -145,7 +139,8 @@ func find_entity_first(component_name: StringName) -> EcsEntity:
 	var entity_id_list = _index__component_name_to_entity_id_list.get(component_name)
 	if entity_id_list == null or entity_id_list.is_empty():
 		return null
-	return entity_id_list[0]
+	var entity_id = entity_id_list[0]
+	return _entity_list[entity_id]
 
 func find_entity_list(component_name: StringName) -> Array[EcsEntity]:
 	var out_entity_list: Array[EcsEntity] = []
@@ -189,6 +184,9 @@ func create_entity() -> EcsEntity:
 		entity = _entity_list[entity_id]
 		pass
 	return entity
+
+func get_entity(entity_id: int) -> EcsEntity:
+	return _entity_list[entity_id]
 
 func _remove_entity(entity_id: int) -> void:
 	_remove_component_all(entity_id)
