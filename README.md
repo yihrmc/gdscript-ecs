@@ -155,5 +155,11 @@ class System_Test2 extends EcsSystemBase:
 
 Attached is an example of the node association between ECS and Godot. In this example, the logic is all in the ECS system, please refer to the example source code directory: gdscript_ecs_test.
 
+The demo code is still being improved, for example, archive loading has not been implemented yet.
 
 
+## Zip Download Notes
+
+Due to the addition of the `.gitattributes` file, when downloading using zip on GitHub, the Godot project configuration file will not be included to avoid overwriting your code.
+
+If you need the complete project configuration file for Godot, you can pull the complete code through git. With the `project.godot` file, you can directly use Godot to open this project without creating a new one.

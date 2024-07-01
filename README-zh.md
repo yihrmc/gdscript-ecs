@@ -158,3 +158,12 @@ class System_Test2 extends EcsSystemBase:
 
 
 附带一个ECS与Godot的节点关联的例子。这个例子中，逻辑都在ecs系统中，具体请看例子源代码目录: gdscript_ecs_test。
+
+
+## Zip下载注意事项
+
+由于添加了`.gitattributes`的文件，当在GitHub上使用zip下载时，Godot项目配置文件将不包括在内，以避免覆盖您的代码。
+
+如果您需要Godot的完整项目配置文件，可以通过git获取完整的代码。
+
+使用`project.godot`文件，您可以直接使用godot打开此项目，而无需创建新项目。
