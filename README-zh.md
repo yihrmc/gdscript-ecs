@@ -1,7 +1,10 @@
 # GDScript ECS 框架
 
-![中文 GDScript ECS 架构图](https://raw.githubusercontent.com/yihrmc/gdscript-ecs-assets/main/ecs1.jpg)
+	警告：本ECS框架，仅适合分离复杂数据计算的逻辑。
+	对于动画等游戏渲染以及相关的控制脚本，你应该使用Godot的节点。
+	并通过ECS框架的命令和事件，将ECS的世界与你的渲染节点关联起来。
 
+![中文 GDScript ECS 架构图](https://raw.githubusercontent.com/yihrmc/gdscript-ecs-assets/main/ecs1.jpg)
 
 ## 框架特点
 

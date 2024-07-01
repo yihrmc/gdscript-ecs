@@ -1,5 +1,9 @@
 # GDScript ECS framework
 
+	Warning: This ECS framework is only suitable for separating complex data computation logic.
+	For game rendering such as animations and related control scripts, you should use Godot's nodes.
+	Associate the world of ECS with your rendering nodes through the commands and events of the ECS framework.
+
 ![GDScript ECS](https://raw.githubusercontent.com/yihrmc/gdscript-ecs-assets/main/ecs2.jpg)
 
 ## Framework features
